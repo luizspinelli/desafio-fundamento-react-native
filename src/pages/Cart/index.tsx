@@ -1,12 +1,11 @@
 import React, { useMemo } from 'react';
 import FeatherIcon from 'react-native-vector-icons/Feather';
 
-import { View } from 'react-native';
+import { View, FlatList } from 'react-native';
 
 import {
   Container,
   ProductContainer,
-  ProductList,
   Product,
   ProductImage,
   ProductTitleContainer,
@@ -39,29 +38,32 @@ const Cart: React.FC = () => {
   const { increment, decrement, products } = useCart();
 
   function handleIncrement(id: string): void {
-    // TODO
+    increment(id);
   }
 
   function handleDecrement(id: string): void {
-    // TODO
+    decrement(id);
   }
 
   const cartTotal = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const sumCart = products.reduce((a, b) => b.price * b.quantity + a, 0);
 
-    return formatValue(0);
+    return formatValue(sumCart);
   }, [products]);
 
   const totalItensInCart = useMemo(() => {
-    // TODO RETURN THE SUM OF THE QUANTITY OF THE PRODUCTS IN THE CART
+    const countCart = products.reduce((a, b) => b.quantity + a, 0);
 
-    return 0;
+    return countCart;
   }, [products]);
 
   return (
     <Container>
       <ProductContainer>
-        <ProductList
+        <FlatList
+          style={{
+            flex: 1,
+          }}
           data={products}
           keyExtractor={item => item.id}
           ListFooterComponent={<View />}
